@@ -1,0 +1,40 @@
+class Solution {
+public:
+    struct Pair{
+        int num;
+        int idx;
+        Pair(int num, int idx): num(num), idx(idx) {}
+        bool operator<(const Pair& other) const{
+            if(num != other.num){
+                return num < other.num; 
+            } else {
+                return idx < other.idx;
+            }
+        }
+    };
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        vector<Pair> arr;
+        arr.reserve(n); 
+        for (int i = 0; i < n; ++i) {
+            arr.emplace_back(nums[i], i);
+        }
+        sort(arr.begin(), arr.end());
+
+        int i=0, j=n-1;
+        while(i < j) {
+            int left = arr[i].num;
+            int right = arr[j].num;
+            if (left + right > target) {
+                j--;
+            } else {
+                if (left + right < target) {
+                    i++;
+                } else {
+                    return {arr[i].idx, arr[j].idx};
+                }
+            }
+        }
+        return {0, 0};
+    }
+};
